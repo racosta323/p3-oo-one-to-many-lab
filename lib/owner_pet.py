@@ -1,5 +1,3 @@
-import ipdb
-
 class Pet:
 
     all = []
@@ -24,11 +22,28 @@ class Pet:
             self._pet_type = new_pet
         else:
             raise Exception
-            
+        
+    def __repr__(self):
+       return f'<name={self.name} type={self.pet_type} owner={self.owner}>'
+   
 
 class Owner:
     def __init__(self, name):
         self.name = name
 
-# pet = Pet("Fido", "human")
-# ipdb.set_trace()
+    def pets(self):
+        return [pet for pet in Pet.all if pet.owner == self]
+    
+    def add_pet(self, pet):
+        if isinstance(pet,Pet):
+            pet.owner = self
+        else:
+            raise Exception
+           
+    def get_sorted_pets(self):
+        pets = [pet for pet in self.pets()]
+        return sorted(pets, key=lambda pet: pet.name)
+
+    
+    def __repr__(self):
+       return f'<owner_name={self.name}>'
